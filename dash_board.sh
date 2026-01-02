@@ -3,11 +3,11 @@
 # ---------------- FUNCTION ----------------
 
 get_date () {
-    $(date) 
+    (date) 
 }
 
 get_time () {
-    $(uptime -p | sed 's/up //')  
+    (uptime -p | sed 's/up //')  
 }
     
 get_cpu_usage () {
@@ -16,6 +16,8 @@ get_cpu_usage () {
     NB_COEURS=$(nproc)
 
     UTILISATION=$(echo "scale=3; ($CHARGE_1MIN / $NB_COEURS) * 100" | bc)
+
+    echo $Utilisation
 }
 
 get_ram () {
@@ -39,11 +41,16 @@ get_disque () {
 
 # ---------------- DISPLAY  ----------------    
  
-echo "            ***********************************                "
-echo "            *                                 *                "
-echo "            *           Dash Board            *                "
-echo "            *                                 *                "
-echo "            ***********************************                "
+cat << "EOF"
+      _              _      _                              _ 
+     | |            | |    | |                            | | 
+   __| |  __ _  ___ | |__  | |__    ___    __ _  _ __   __| | 
+  / _` | / _` |/ __|| '_ \ | '_ \  / _ \  / _` || '__| / _` | 
+ | (_| || (_| |\__ \| | | || |_) || (_) || (_| || |   | (_| | 
+  \__,_| \__,_||___/|_| |_||_.__/  \___/  \__,_||_|    \__,_| 
+
+  
+EOF
 
 echo "    Date : $(get_date) " 
 echo "    Uptime : $(get_time) "
