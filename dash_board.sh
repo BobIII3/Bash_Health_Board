@@ -15,9 +15,9 @@ get_cpu_usage () {
     CHARGE_1MIN=$(uptime | awk -F'load average:' '{ print $2 }' | cut -d',' -f1)
     NB_COEURS=$(nproc)
 
-    UTILISATION=$(echo "scale=3; ($CHARGE_1MIN / $NB_COEURS) * 100" | bc)
+    echo "scale=3; ($CHARGE_1MIN / $NB_COEURS) * 100" | bc
 
-    echo $Utilisation
+   
 }
 
 get_ram () {
