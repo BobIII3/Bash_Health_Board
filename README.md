@@ -11,13 +11,10 @@ Ce projet fait partie de ma formation d'ingénieur pour maîtriser les outils sy
 
 ## 🛠 Installation
    ```bash
-   git clone git@github.com:TonPseudo/System-Health-Dashboard.git
+   git clone git@github.com:BOBIII/System-Health-Dashboard.git
 	
    chmod +x dash_board.sh
 
    ./dash_board.sh
 
    ```
-
-Projet réalisé par Théophile - Étudiant Ingénieur.
-
