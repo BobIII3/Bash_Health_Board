@@ -40,36 +40,37 @@ get_disque () {
 }
 
 # ---------------- DISPLAY  ----------------    
- 
-cat << "EOF" | python3 -c "import sys; w=$(tput cols); [print(line.rstrip().center(w)) for line in sys.stdin]"
-     _              _      _                              _ 
-     | |            | |    | |                            | | 
-   __| |  __ _  ___ | |__  | |__    ___    __ _  _ __   __| | 
-  / _` | / _` |/ __|| '_ \ | '_ \  / _ \  / _` || '__| / _` | 
- | (_| || (_| |\__ \| | | || |_) || (_) || (_| || |   | (_| | 
-  \__,_| \__,_||___/|_| |_||_.__/  \___/  \__,_||_|    \__,_| 
+ while true; do
+    clear
+                
+    cat << "EOF" | python3 -c "import sys; w=$(tput cols); [print(line.rstrip().center(w)) for line in sys.stdin]"
+       _              _      _                              _ 
+       | |            | |    | |                            | | 
+     __| |  __ _  ___ | |__  | |__    ___    __ _  _ __   __| | 
+    / _` | / _` |/ __|| '_ \ | '_ \  / _ \  / _` || '__| / _` | 
+   | (_| || (_| |\__ \| | | || |_) || (_) || (_| || |   | (_| | 
+    \__,_| \__,_||___/|_| |_||_.__/  \___/  \__,_||_|    \__,_| 
 
-  
 EOF
+    Date="Date : $(get_date)"
+    printf "%*s\n" $(( (${#Date} + $(tput cols)) / 2)) "$Date"
 
-Date="Date : $(get_date)"
-printf "%*s\n" $(( (${#Date} + $(tput cols)) / 2)) "$Date"
+    Time="Uptime : $(get_time)"
+    printf "%*s\n" $(( (${#Time} + $(tput cols)) / 2)) "$Time"
 
-Time="Uptime : $(get_time)"
-printf "%*s\n" $(( (${#Time} + $(tput cols)) / 2)) "$Time"
+    CPU="Utilisation globale :$(get_cpu_usage) %"
+    printf "%*s\n" $(( (${#CPU} + $(tput cols)) / 2)) "$CPU"
 
-CPU="Utilisation globale :$(get_cpu_usage) %"
-printf "%*s\n" $(( (${#CPU} + $(tput cols)) / 2)) "$CPU"
+    Ram="RAM : $(get_ram)"
+    printf "%*s\n" $(( (${#Ram} + $(tput cols)) / 2)) "$Ram"
 
-Ram="RAM : $(get_ram)"
-printf "%*s\n" $(( (${#Ram} + $(tput cols)) / 2)) "$Ram"
+    Temp="La température est : $(get_temp) °C"
+    printf "%*s\n" $(( (${#Temp} + $(tput cols)) / 2)) "$Temp"
 
-Temp="La température est : $(get_temp) °C"
-printf "%*s\n" $(( (${#Temp} + $(tput cols)) / 2)) "$Temp"
+    Batterie="Batterie : $(get_batterie)"
+    printf "%*s\n" $(( (${#Batterie} + $(tput cols)) / 2)) "$Batterie"
 
-Batterie="Batterie : $(get_batterie)"
-printf "%*s\n" $(( (${#Batterie} + $(tput cols)) / 2)) "$Batterie"
-
-Disque="Memoire : $(get_disque) % utilise"
-printf "%*s\n" $(( (${#Disque} + $(tput cols)) / 2)) "$Disque"
-
+    Disque="Memoire : $(get_disque) % utilise"
+    printf "%*s\n" $(( (${#Disque} + $(tput cols)) / 2)) "$Disque"
+    sleep 1;
+done
