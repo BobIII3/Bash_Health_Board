@@ -64,6 +64,24 @@ colorize () {
     fi
 }
 
+colorize_inverse () {
+    
+    local val=$1
+    local orange=$2
+    local red=$3
+    local suffix=$4
+
+    local int_val=${val%[.,%]*}
+
+    if [ "$int_val" -le "$orange" ]; then
+        echo -e "${ORANGE}${val}${suffix}${NC}"
+    elif [ "$int_val" -le "$red" ]; then
+        echo -e "${RED}${val}${suffix}${NC}"
+    else
+        echo -e "${GREEN}${val}${suffix}${NC}"
+    fi 
+}
+
 # ---------------- DISPLAY  ----------------    
  while true; do
     clear
@@ -81,9 +99,13 @@ EOF
     current_cpu=$(get_cpu_usage)
     current_ram=$(get_ram)
     current_temp=$(get_temp)
+    current_batterie=$(get_batterie)
+    current_disque=$(get_disque)
 
     cpu_line="Utilisation global (CPU): $(colorize "$current_cpu" 60 100 "%")"
     temp_line="La temperature est : $(colorize "$current_temp" 40 80 "°C")"
+    batterie_line="Le niveau de batterie est : $(colorize_inverse "$current_batterie" 50 10 "")"
+    disque_line="Memoire utilise a : $(colorize "$current_disque" 50 70 "%")"
 
     Date="Date : $(get_date)"
     printf "%*s\n" $(( (${#Date} + $(tput cols)) / 2)) "$Date"
@@ -93,21 +115,15 @@ EOF
 
     printf "%*s\n" $(( (${#cpu_line} + $(tput cols)) / 2)) "$cpu_line"
 
-    #CPU="Utilisation globale :$(get_cpu_usage) %"
-    #printf "%*s\n" $(( (${#CPU} + $(tput cols)) / 2)) "$CPU"
-
     Ram="RAM : $(get_ram)"
     printf "%*s\n" $(( (${#Ram} + $(tput cols)) / 2)) "$Ram"
 
     printf "%*s\n" $(( (${#temp_line} + $(tput cols)) / 2)) "$temp_line"
 
-    #Temp="La température est : $(get_temp) °C"
-    #printf "%*s\n" $(( (${#Temp} + $(tput cols)) / 2)) "$Temp"
+    printf "%*s\n" $(( (${#batterie_line} + $(tput cols)) /2)) "$batterie_line"
 
-    Batterie="Batterie : $(get_batterie)"
-    printf "%*s\n" $(( (${#Batterie} + $(tput cols)) / 2)) "$Batterie"
+    printf "%*s\n" $(( (${#batterie_line} + $(tput cols)) / 2)) "$disque_line"
 
-    Disque="Memoire : $(get_disque) % utilise"
-    printf "%*s\n" $(( (${#Disque} + $(tput cols)) / 2)) "$Disque"
+    
     sleep 1;
 done
