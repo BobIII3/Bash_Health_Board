@@ -101,22 +101,27 @@ EOF
     current_temp=$(get_temp)
     current_batterie=$(get_batterie)
     current_disque=$(get_disque)
+    current_ram=$(get_ram)
+
+    current_date=$(get_date)
+    current_time=$(get_time)
 
     cpu_line="Utilisation global (CPU): $(colorize "$current_cpu" 60 100 "%")"
+    ram_line="Utilisation de la RAM : $(colorize "$current_ram" 6 14 "")"
     temp_line="La temperature est : $(colorize "$current_temp" 40 80 "°C")"
     batterie_line="Le niveau de batterie est : $(colorize_inverse "$current_batterie" 50 10 "")"
     disque_line="Memoire utilise a : $(colorize "$current_disque" 50 70 "%")"
 
-    Date="Date : $(get_date)"
-    printf "%*s\n" $(( (${#Date} + $(tput cols)) / 2)) "$Date"
+    date_line="Date : $current_date"
+    time_line="Uptime : $current_time"
 
-    Time="Uptime : $(get_time)"
-    printf "%*s\n" $(( (${#Time} + $(tput cols)) / 2)) "$Time"
+    printf "%*s\n" $(( (${#date_line} + $(tput cols)) / 2)) "$date_line"
+
+    printf "%*s\n" $(( (${#time_line} + $(tput cols)) / 2)) "$time_line"
 
     printf "%*s\n" $(( (${#cpu_line} + $(tput cols)) / 2)) "$cpu_line"
 
-    Ram="RAM : $(get_ram)"
-    printf "%*s\n" $(( (${#Ram} + $(tput cols)) / 2)) "$Ram"
+    printf "%*s\n" $(( (${#ram_line} + $(tput cols)) / 2)) "$ram_line"
 
     printf "%*s\n" $(( (${#temp_line} + $(tput cols)) / 2)) "$temp_line"
 
@@ -125,5 +130,5 @@ EOF
     printf "%*s\n" $(( (${#batterie_line} + $(tput cols)) / 2)) "$disque_line"
 
     
-    sleep 1;
+    sleep 5;
 done
