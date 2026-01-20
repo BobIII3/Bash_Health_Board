@@ -82,6 +82,17 @@ colorize_inverse () {
     fi 
 }
 
+display_center () {
+    local sentence=$1
+
+    local clean_sentence=$(echo -e "$sentence" | sed 's/\x1b\[[0-9;]*m//g')
+    local COLUMNS=$( tput cols )
+    local padding=$(( (${#clean_sentence} - $COLUMNS) / 2))
+
+    printf "%*s" $padding ""
+    echo -e "$sentence"
+}
+
 # ---------------- DISPLAY  ----------------    
  while true; do
     clear
@@ -115,20 +126,17 @@ EOF
     date_line="Date : $current_date"
     time_line="Uptime : $current_time"
 
-    printf "%*s\n" $(( (${#date_line} + $(tput cols)) / 2)) "$date_line"
-
-    printf "%*s\n" $(( (${#time_line} + $(tput cols)) / 2)) "$time_line"
-
-    printf "%*s\n" $(( (${#cpu_line} + $(tput cols)) / 2)) "$cpu_line"
-
-    printf "%*s\n" $(( (${#ram_line} + $(tput cols)) / 2)) "$ram_line"
-
-    printf "%*s\n" $(( (${#temp_line} + $(tput cols)) / 2)) "$temp_line"
-
-    printf "%*s\n" $(( (${#batterie_line} + $(tput cols)) /2)) "$batterie_line"
-
-    printf "%*s\n" $(( (${#batterie_line} + $(tput cols)) / 2)) "$disque_line"
+    display_center "$date_line"
+    display_center "$time_line"
+    display_center "$cpu_line"
+    display_center "$ram_line"
+    display_center "$temp_line"
+    display_center "$batterie_line"
+    display_center "$disque_line"
 
     
     sleep 5;
 done
+
+
+
